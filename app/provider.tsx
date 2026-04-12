@@ -13,7 +13,6 @@ export function Provider(props: { children: ReactNode }) {
     <WagmiConfig config={config}>
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider>
-            <ConnectButton />
             {props.children}
             </RainbowKitProvider>
       </QueryClientProvider>
