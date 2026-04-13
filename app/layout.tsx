@@ -2,19 +2,21 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ReactNode } from "react";
 import { Provider } from "./provider";
+import Header from "@/components/Header";
 
 export const metadata: Metadata = {
-  title: "TSender"
+  title: "txSender"
 };
 
-export default function RootLayout(props: {children: ReactNode}) {
+export default function RootLayout(props: { children: ReactNode }) {
   return (
     <html lang="en">
       <body>
-        Hello from RootLayout!
-        <Provider>{props.children}</Provider>
+        <Provider>
+          <Header />
+          <main>{props.children}</main>
+        </Provider>
       </body>
     </html>
   );
 }
-
