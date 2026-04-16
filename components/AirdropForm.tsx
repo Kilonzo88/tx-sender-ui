@@ -311,6 +311,7 @@ export default function AirdropForm() {
     const tSenderAddress = chainsToTSender[chainId]["tsender"]
     //Get how much is approved
     const approvedAmount = await getApprovedAmount(tSenderAddress)
+    console.log(approvedAmount)
 
   }
   return (
@@ -337,7 +338,12 @@ export default function AirdropForm() {
         onChange={e => setAmounts(e.target.value)}
         large={true}
       />
-      <button onClick={handleSubmit}>Send Tokens</button>
+      <button
+        onClick={handleSubmit}
+        className="mt-4 px-6 py-3 bg-blue-500 hover:bg-blue-600 active:scale-[0.99] text-white text-sm font-semibold rounded-lg transition-all duration-150 cursor-pointer"
+      >
+        Send Tokens
+      </button>
     </div>
   )
 } 
