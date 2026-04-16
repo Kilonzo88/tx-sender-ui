@@ -296,6 +296,7 @@ export default function AirdropForm() {
 
     // read from the chain to check if we have approved enough tokens
     const response = await readContract(config, {
+      chainId: chainId,
       abi: erc20Abi,
       address: tokenAddress as `0x${string}`,
       functionName: "allowance",
