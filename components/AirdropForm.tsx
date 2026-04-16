@@ -275,16 +275,43 @@
 
 import InputField from "@/components/Ui/inputField";
 import { useState } from "react";
+import { useChainId, useConfig, useAccount } from 'wagmi'
+import { chainsToTSender, tsenderAbi, erc20Abi } from "@/app/constants";
+import { readContract } from '@wagmi/core'
+import { abi } from './abi'
 
 export default function AirdropForm() {
   const [tokenAddress, setTokenAddress] = useState("");
   const [recipients, setRecipients] = useState("");
   const [amounts, setAmounts] = useState("");
+  const chainId = useChainId() //Anytime the user changes to a diffrent chain this will update 
+  const config = useConfig()
+  const account = useAccount()
+
+  async function getApprovedAmount(tSenderAddress: string | null): Promise<number> {
+    if (!tSenderAddress) {
+      alert("No address found, please use a supported chain")
+      return 0
+    }
+
+    // read from the chain to check if we have approved enough tokens
+    const response = await readContract(config, {
+      abi: erc20Abi,
+      address: tokenAddress as `0x${string}`,
+      functionName: "allowance",
+      args: [account.address, tSenderAddress as `0x${string}`],
+    })
+
+    // That's similar to ```solidity token.allowance(account, tSender)
+
+    return response as number
+  }
 
   async function handleSubmit() {
-    console.log(tokenAddress)
-    console.log(recipients)
-    console.log(amounts)
+    const tSenderAddress = chainsToTSender[chainId]["tsender"]
+    //Get how much is approved
+    const approvedAmount = await getApprovedAmount(tSenderAddress)
+
   }
   return (
     <div>
